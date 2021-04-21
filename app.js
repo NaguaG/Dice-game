@@ -40,21 +40,43 @@ document.querySelector(".btn-roll").addEventListener("click", function (){
        roundScore = roundScore + diceNumber;
 document.getElementById('current-' + activePlayer).textContent = roundScore;}
    else {
-        // 1 буувал тоглогчийн ээлжийг нөгөө тоглогч болгож солино
-        // Энэ тоглогчид 1 буусан тул оноог 0 болгох
-        document.getElementById('current-' + activePlayer).textContent = 0;
-        roundScore = 0;
-        // Хэрэв идэвхитэй тоглогч нь 0 байвал идэвхитэй тоглогчийг 1 болгоно
-        // Үгүй бол идэвхитэй тоглогчийг 0 болгоно.
-       activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0); 
-       // Улаан цэгийг шилжүүлэх кодыг хийнэ
-       document.querySelector('.player-0-panel').classList.toggle('active');
-       document.querySelector('.player-1-panel').classList.toggle('active');
-       // Шоог түр алга болгоно.
-       diceDom.style.display = 'none';
+        
+       switchToNextPlayer();
     //    if (activePlayer === 0) {
     //        activePlayer = 1;
     //     }else (activePlayer = 0);
      
    }
 });
+// HOLD товчийн эвент листенер
+document.querySelector('.btn-hold').addEventListener("click", function() {
+// Уг тоглогчийн цуглуулсан оноог глобал оноо дээрээ нэмж өгнө
+scores[activePlayer] = scores[activePlayer] + roundScore;
+// Тоглогчийн цуглуулсан оноог дэлгэцэнд харуулна
+document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+
+// Уг тоглогч хожсон эсэхийг (түрүүлж 100 оноо хүрсэн эсэх) шалгах
+if (scores[activePlayer] >= 20) {
+    document.getElementById('name-' + activePlayer).textContent = 'WINNER !!!';
+    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+} else {
+    // Тоглогчийн ээлжийг солино.
+    switchToNextPlayer();
+}})
+function switchToNextPlayer (){
+    // 1 буувал тоглогчийн ээлжийг нөгөө тоглогч болгож солино
+// Энэ тоглогчид 1 буусан тул оноог 0 болгох
+document.getElementById('current-' + activePlayer).textContent = 0;
+roundScore = 0;
+// Хэрэв идэвхитэй тоглогч нь 0 байвал идэвхитэй тоглогчийг 1 болгоно
+// Үгүй бол идэвхитэй тоглогчийг 0 болгоно.
+activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0); 
+// Улаан цэгийг шилжүүлэх кодыг хийнэ
+document.querySelector('.player-0-panel').classList.toggle('active');
+document.querySelector('.player-1-panel').classList.toggle('active');
+// Шоог түр алга болгоно.
+diceDom.style.display = 'none';
+}
+// Шинэ тоглоом эхлүүлэх товчны эвент листенер
+document.querySelector('.btn-new').addEventListener('click', )
