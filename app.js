@@ -1,25 +1,40 @@
-// Тоглогчийн ээлжийг хадгалах хувьсагч, 1дүгээр тоглогч = 0, 2дугаар тоглогч = 1
-var activePlayer = 0;
-// Тоглогчийн цуглуулсан оноог хадгалах хувьсагч
-var scores = [0, 0];
-
+// Тоглоомд шаардлагатай хувьсагчуудыг эхлэж зарлах
+// Идэвхитэй тоглогчийн инкекс
+var activePlayer;
+//Тоглогчийн цуглуулсан оноог хадгалах хувьсагч
+var scores;
 // Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах хувьсагч
-var roundScore = 0;
-//Шооны аль талаараа буусныг хадгалах хувьсагч 1-6 гэсэн утгыг энэ хувьсагчид санамсаргүйгээр хадгалж өгнө.
-var diceNumber = Math.floor(Math.random() * 6) + 1;
-// <div class="player-score" id="score-0">43</div>
-// document.querySelector('#score-0').textContent = dice;
+var roundScore;
 
-// document.querySelector('#score-1').innerHTML = '<em>Yes<em>';
-
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
-
-
+// Шооны зургийг үзүүлдэг элемэнтийг домоос хайж олоод diceDom хувьсагчид хадгалж байна
 var diceDom = document.querySelector(".dice"); 
-diceDom.style.display = 'none';
+
+ initGame();
+ // Тоглоом эхлүүлэн функц буюу 'New Game' товчийг дарахад ажиллах дараалал
+ function initGame(){
+    // Тоглогчийн ээлжийг хадгалах хувьсагч, 1дүгээр тоглогч = 0, 2дугаар тоглогч = 1
+  activePlayer = 0;  
+   // Тоглогчийн цуглуулсан оноог хадгалах хувьсагч
+  scores = [0, 0];
+   // Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах хувьсагч
+   roundScore = 0;
+   // <div class="player-score" id="score-0">43</div>
+   // document.querySelector('#score-0').textContent = dice;
+   // document.querySelector('#score-1').innerHTML = '<em>Yes<em>';
+   document.getElementById('score-0').textContent = '0';
+   document.getElementById('score-1').textContent = '0';
+   document.getElementById('current-0').textContent = '0';
+   document.getElementById('current-1').textContent = '0';
+// Тоглогчдын нэрийг буцааж гаргах
+document.getElementById('name-0').textContent = 'Player 1';
+document.getElementById('name-1').textContent = 'Player 2';
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.add('active');
+   diceDom.style.display = 'none';
+   }
 
 // шоог шидэх эвент листенер
 document.querySelector(".btn-roll").addEventListener("click", function (){
@@ -79,4 +94,4 @@ document.querySelector('.player-1-panel').classList.toggle('active');
 diceDom.style.display = 'none';
 }
 // Шинэ тоглоом эхлүүлэх товчны эвент листенер
-document.querySelector('.btn-new').addEventListener('click', )
+document.querySelector('.btn-new').addEventListener('click', initGame);
