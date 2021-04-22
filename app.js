@@ -5,13 +5,15 @@ var activePlayer;
 var scores;
 // Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах хувьсагч
 var roundScore;
-
+// Тоглоом дууссаныг шалгах боолеан хувьсагчид утгыг хадгалах
+var isNewGame;
 // Шооны зургийг үзүүлдэг элемэнтийг домоос хайж олоод diceDom хувьсагчид хадгалж байна
 var diceDom = document.querySelector(".dice"); 
 
  initGame();
  // Тоглоом эхлүүлэн функц буюу 'New Game' товчийг дарахад ажиллах дараалал
  function initGame(){
+     isNewGame = true;
     // Тоглогчийн ээлжийг хадгалах хувьсагч, 1дүгээр тоглогч = 0, 2дугаар тоглогч = 1
   activePlayer = 0;  
    // Тоглогчийн цуглуулсан оноог хадгалах хувьсагч
@@ -38,8 +40,7 @@ document.querySelector('.player-0-panel').classList.add('active');
 
 // шоог шидэх эвент листенер
 document.querySelector(".btn-roll").addEventListener("click", function (){
-
-    // 1-6 хүртэлх тооноос санамсаргүй нэг тоог гаргаж авна.
+if (isNewGame) { // 1-6 хүртэлх тооноос санамсаргүй нэг тоог гаргаж авна.
     var diceNumber = Math.floor(Math.random() * 6) + 1;
 
     // Шооны зургыг вэб дээр гаргаж харуулна.
@@ -47,9 +48,6 @@ document.querySelector(".btn-roll").addEventListener("click", function (){
 
    // Буусан тооны шоонын зургыг вэб дээр гаргана.
    diceDom.src = 'dice-' + diceNumber +'.png';
-
-   // Буусан тоо нь 1-с ялгаатай бол идэвхитэй тоглогчийн оноог нэмэгдүүлнэ
-
    if (diceNumber !== 1) {
 // 1-с ялгаатай тоо буувал буусан тоог тоглогчийн оноо дээр нэмнэ
        roundScore = roundScore + diceNumber;
@@ -61,24 +59,32 @@ document.getElementById('current-' + activePlayer).textContent = roundScore;}
     //        activePlayer = 1;
     //     }else (activePlayer = 0);
      
-   }
-});
+   }} else {
+       alert('Тоглоом дууссан байна. New Game товчийг дарж дахин эхэлнэ үү.')
+   }}
+   );
 // HOLD товчийн эвент листенер
 document.querySelector('.btn-hold').addEventListener("click", function() {
-// Уг тоглогчийн цуглуулсан оноог глобал оноо дээрээ нэмж өгнө
+    if(isNewGame) {
+        // Уг тоглогчийн цуглуулсан оноог глобал оноо дээрээ нэмж өгнө
 scores[activePlayer] = scores[activePlayer] + roundScore;
 // Тоглогчийн цуглуулсан оноог дэлгэцэнд харуулна
 document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
 // Уг тоглогч хожсон эсэхийг (түрүүлж 100 оноо хүрсэн эсэх) шалгах
 if (scores[activePlayer] >= 20) {
+    isNewGame = false;
     document.getElementById('name-' + activePlayer).textContent = 'WINNER !!!';
     document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
     document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
 } else {
     // Тоглогчийн ээлжийг солино.
     switchToNextPlayer();
-}})
+}} else {
+    alert('Тоглоом дууссан байна. New Game товчийг дарж дахин эхэлнэ үү.')
+}
+    }
+)
 function switchToNextPlayer (){
     // 1 буувал тоглогчийн ээлжийг нөгөө тоглогч болгож солино
 // Энэ тоглогчид 1 буусан тул оноог 0 болгох
